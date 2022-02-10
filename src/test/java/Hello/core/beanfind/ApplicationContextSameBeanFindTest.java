@@ -1,8 +1,5 @@
 package Hello.core.beanfind;
 
-import Hello.core.AppConfig;
-import Hello.core.discount.DiscountPolicy;
-import Hello.core.member.Member;
 import Hello.core.member.MemberRepository;
 import Hello.core.member.MemoryMemberRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ApplicationContextSameBeanFindTest {
 
@@ -23,7 +21,6 @@ public class ApplicationContextSameBeanFindTest {
     @Test
     @DisplayName("타입으로 조회시 같은 타입이 둘 이상 있으면, 중복 오류가 발생ㅎ나다.")
     void fineBeanByTypeDuplicate(){
-        MemberRepository bean = ac.getBean(MemberRepository.class);
         assertThrows(NoUniqueBeanDefinitionException.class,
                 ()-> ac.getBean(MemberRepository.class));
     }
@@ -33,7 +30,6 @@ public class ApplicationContextSameBeanFindTest {
     void  findBeanByName(){
         MemberRepository memberRepository = ac.getBean("memberRepository1",MemberRepository.class);
         assertThat(memberRepository).isInstanceOf(MemberRepository.class);
-
     }
 
     @Test
@@ -45,8 +41,6 @@ public class ApplicationContextSameBeanFindTest {
         }
         System.out.println("beansOfType = " + beansOfType);
         assertThat(beansOfType.size()).isEqualTo(2);
-    }
-    private void assertThat(MemberRepository memberRepository) {
     }
 
     @Configuration
